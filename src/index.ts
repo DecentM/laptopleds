@@ -61,7 +61,7 @@ class Display {
   }
 
   constructor(
-    private path: string,
+    path: string,
     public width = 9,
     public height = 34,
   ) {
@@ -318,6 +318,11 @@ const main = async () => {
     playAnimation(left, idle, criteria),
     playAnimation(right, idle, criteria),
   ]);
+
+  const animationEnd = performance.now();
+  console.log(
+    `Animation took ${((animationEnd - animationStart) / 1000).toFixed(2)}s`,
+  );
 
   await Promise.all([left.powerOff(), right.powerOff()]);
 };
