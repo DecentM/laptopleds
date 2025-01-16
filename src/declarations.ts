@@ -1,13 +1,21 @@
-export type AnimationFrame = {
-  brightness: number;
-  span: number;
-  matrix: number[][];
-};
-
-export type Animation = {
-  name: string;
-  fps: number;
-  interruptible: boolean;
-  frameskip: boolean;
-  frames: AnimationFrame[];
-};
+export enum Command {
+  Brightness = 0x00,
+  Pattern = 0x01,
+  Bootloader = 0x02,
+  Sleep = 0x03,
+  Animate = 0x04,
+  Panic = 0x05,
+  Draw = 0x06,
+  StageGreyCol = 0x07,
+  DrawGreyColBuffer = 0x08,
+  SetText = 0x09,
+  StartGame = 0x10,
+  GameControl = 0x11,
+  GameStatus = 0x12,
+  SetColor = 0x13,
+  DisplayOn = 0x14,
+  InvertScreen = 0x15,
+  SetPixelColumn = 0x16,
+  FlushFramebuffer = 0x17,
+  Version = 0x20,
+}

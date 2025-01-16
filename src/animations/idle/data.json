@@ -1,7 +1,7 @@
 {
     "name": "idle",
     "fps": 20,
-    "frameskip": false,
+    "frameskip": true,
     "interruptible": false,
     "frames": [
         {
