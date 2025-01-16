@@ -2,6 +2,7 @@ import { SerialPort } from "serialport";
 
 import { createArray } from "./array";
 import { Command } from "../declarations";
+import { invertMatrix } from "./invert-matrix";
 
 export class Display {
   private port: SerialPort;
@@ -70,7 +71,9 @@ export class Display {
     await this.port.close();
   }
 
-  public async draw(matrix: number[][], drain = true) {
+  public async draw(input: number[][], drain = true) {
+    const matrix = invertMatrix(input);
+
     if (
       matrix.length === this.height &&
       matrix[0].length === this.width &&
@@ -105,7 +108,7 @@ export class Display {
 
     for (let col = 0; col < this.width; col++) {
       for (let row = 0; row < this.height; row++) {
-        matrix[row][col] = 0;
+        matrix[row][col] = 1;
       }
     }
 
@@ -117,7 +120,7 @@ export class Display {
 
     for (let col = 0; col < this.width; col++) {
       for (let row = 0; row < this.height; row++) {
-        matrix[row][col] = 1;
+        matrix[row][col] = 0;
       }
     }
 
