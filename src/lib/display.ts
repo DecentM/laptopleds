@@ -3,6 +3,8 @@ import { SerialPort } from "serialport";
 import { createArray } from "./array";
 import { Command } from "../declarations";
 import { invertMatrix } from "./invert-matrix";
+import { BlankScreen } from "../icons/blank-screen";
+import { composite } from "./composite";
 
 export class Display {
   private port: SerialPort;
@@ -59,20 +61,31 @@ export class Display {
     await this.port.open();
     await this.sendCommand(Command.Sleep, [0], drain);
     this._power = true;
-    await this.blank();
+    await this.draw([]);
     await this.setBrightness(255);
   }
 
   public async powerOff(drain = true) {
-    await this.blank();
+    await this.draw([]);
     await this.setBrightness(255);
     await this.sendCommand(Command.Sleep, [1], drain);
     this._power = false;
     await this.port.close();
   }
 
-  public async draw(input: number[][], drain = true) {
-    const matrix = invertMatrix(input);
+  private lastDraw = 0;
+
+  public async draw(
+    layers: Array<{ matrix: number[][]; pos: [number, number] }>,
+    drain = true,
+  ) {
+    let screen = BlankScreen;
+
+    for (const layer of layers) {
+      screen = composite(screen, layer.matrix, layer.pos);
+    }
+
+    const matrix = invertMatrix(screen);
 
     if (
       matrix.length === this.height &&
@@ -81,7 +94,7 @@ export class Display {
         row.every((cell, x) => cell === this._matrix[y][x]),
       )
     ) {
-      return;
+      if (performance.now() - this.lastDraw < 50000) return;
     }
 
     const width = matrix[0].length;
@@ -101,30 +114,7 @@ export class Display {
 
     await this.sendCommand(Command.Draw, vals, drain);
     this._matrix = matrix;
-  }
-
-  public async fill(drain = true) {
-    const matrix = createArray<number>(this.height, this.width);
-
-    for (let col = 0; col < this.width; col++) {
-      for (let row = 0; row < this.height; row++) {
-        matrix[row][col] = 1;
-      }
-    }
-
-    await this.draw(matrix, drain);
-  }
-
-  public async blank(drain = true) {
-    const matrix = createArray<number>(this.height, this.width);
-
-    for (let col = 0; col < this.width; col++) {
-      for (let row = 0; row < this.height; row++) {
-        matrix[row][col] = 0;
-      }
-    }
-
-    await this.draw(matrix, drain);
+    this.lastDraw = performance.now();
   }
 
   public async setBrightness(brightness: number, drain = true) {
@@ -148,7 +138,15 @@ export class Display {
       this._matrix[y][x] = value;
     }
 
-    await this.draw(this._matrix, drain);
+    await this.draw(
+      [
+        {
+          matrix: this._matrix,
+          pos: [0, 0],
+        },
+      ],
+      drain,
+    );
   }
 
   public async drain() {

@@ -44,7 +44,15 @@ export abstract class Animation {
       const frame = await this.render(frameCount);
 
       await Promise.all([
-        display.draw(frame.matrix, false),
+        display.draw(
+          [
+            {
+              matrix: frame.matrix,
+              pos: [0, 0],
+            },
+          ],
+          false,
+        ),
         display.setBrightness(frame.brightness, false),
       ]);
       await display.drain();

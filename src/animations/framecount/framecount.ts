@@ -1,5 +1,14 @@
+import {
+  LowercaseLetters,
+  Numbers,
+  Symbols,
+  UppercaseLetters,
+} from "../../icons";
 import { Animation, type AnimationFrameData } from "../../lib/animation";
+import { joinMatrices } from "../../lib/join-matrix";
 import { numberToBinary } from "../../lib/number-to-binary";
+import { rotateMatrix } from "../../lib/rotate-matrix";
+import { textToMatrix } from "../../lib/text-to-matrix";
 
 export class FramecountAnimation extends Animation {
   public name = "framecount";
@@ -17,17 +26,17 @@ export class FramecountAnimation extends Animation {
   public render(
     frame: number,
   ): Promise<AnimationFrameData> | AnimationFrameData {
-    const binary = Array.from({
-      ...numberToBinary(frame).reverse(),
-      length: 9,
-    })
-      .map((bit) => bit || 0)
-      .reverse();
+    const frames = [
+      // ...Object.values(Numbers),
+      // ...Object.values(LowercaseLetters),
+      // ...Object.values(UppercaseLetters),
+      ...Object.values(Symbols),
+    ];
 
     return {
       brightness: 50,
       span: 1,
-      matrix: [binary],
+      matrix: rotateMatrix(textToMatrix("Hello, world!"), 270),
     };
   }
 }
