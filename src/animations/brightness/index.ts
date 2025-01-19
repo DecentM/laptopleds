@@ -1,5 +1,9 @@
 import { Battery } from "../../icons";
-import { Animation, type AnimationFrameData } from "../../lib/animation";
+import {
+  Animation,
+  type AnimationFrameData,
+  type RenderInformation,
+} from "../../lib/animation";
 
 import { BrightnessDataSource } from "../../data-sources/dbus/brightness";
 import { BrightnessMaxDataSource } from "../../data-sources/dbus/brightness-max";
@@ -14,7 +18,7 @@ export class BrightnessAnimation extends Animation {
 
   public interruptible = true;
 
-  public playCriteria(frame: number): Promise<boolean> | boolean {
+  public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;
   }
 
@@ -22,7 +26,7 @@ export class BrightnessAnimation extends Animation {
 
   private brightnessMax = new BrightnessMaxDataSource();
 
-  public async render(frame: number): Promise<AnimationFrameData> {
+  public async render(info: RenderInformation): Promise<AnimationFrameData> {
     const brightnessPct =
       (await this.brightness.read()) / (await this.brightnessMax.read());
 

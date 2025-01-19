@@ -16,7 +16,7 @@ const main = async () => {
   const framecount = new FramecountAnimation();
   const brightness = new BrightnessAnimation();
 
-  await Promise.all([framecount.play(left)]);
+  await Promise.all([idle.play(right)]);
 
   await Promise.all([left.powerOff(), right.powerOff()]);
 };

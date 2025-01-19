@@ -1,6 +1,10 @@
 import * as os from "node:os";
 
-import { Animation, type AnimationFrameData } from "../../lib/animation";
+import {
+  Animation,
+  type AnimationFrameData,
+  type RenderInformation,
+} from "../../lib/animation";
 import { numberToBinary } from "../../lib/number-to-binary";
 
 export class UptimeAnimation extends Animation {
@@ -12,12 +16,12 @@ export class UptimeAnimation extends Animation {
 
   public interruptible = true;
 
-  public playCriteria(frame: number): Promise<boolean> | boolean {
+  public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;
   }
 
   public render(
-    frame: number,
+    info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData {
     const uptime = os.uptime();
 

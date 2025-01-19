@@ -1,3 +1,4 @@
+import anime, { type AnimeInstance, type AnimeParams } from "animejs";
 import { animate } from "./animate";
 import type { Display } from "./display";
 
@@ -15,6 +16,11 @@ export type AnimationData = {
   frames: AnimationFrameData[];
 };
 
+export type RenderInformation = {
+  frameNumber: number;
+  timestamp: number;
+};
+
 export abstract class Animation {
   public abstract readonly name: string;
 
@@ -25,23 +31,25 @@ export abstract class Animation {
   public abstract readonly frameskip: boolean;
 
   public abstract render(
-    frame: number,
+    info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData;
 
-  public playCriteria(frame: number): Promise<boolean> | boolean {
+  public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return false;
   }
 
   public play = async (display: Display) => {
-    let frameCount = 0;
+    let frameNumber = 0;
     let spanProgress = 0;
+    const start = performance.now();
 
     if (this.fps < 0 || this.fps > 1000) {
       throw new Error(`Invalid animation frame rate - 0 < ${this.fps} < 1000`);
     }
 
     await animate(this.fps, this.frameskip, async (skip) => {
-      const frame = await this.render(frameCount);
+      const info = { frameNumber, timestamp: performance.now() - start };
+      const frame = await this.render(info);
 
       await Promise.all([
         display.draw(
@@ -60,13 +68,13 @@ export abstract class Animation {
       if (frame.span > spanProgress + 1) {
         spanProgress++;
       } else {
-        frameCount++;
+        frameNumber++;
         spanProgress = 0;
       }
 
-      if (skip) frameCount += skip;
+      if (skip) frameNumber += skip;
 
-      return await this.playCriteria(frameCount);
+      return await this.playCriteria(info);
     });
   };
 }
@@ -89,11 +97,39 @@ export abstract class JsonAnimation extends Animation {
 
   public readonly frameskip;
 
-  public render(frame: number) {
-    return this.data.frames[frame % this.data.frames.length];
+  public render(info: RenderInformation) {
+    return this.data.frames[info.frameNumber % this.data.frames.length];
   }
 
-  public playCriteria(frame: number) {
-    return frame < this.data.frames.length;
+  public playCriteria(info: RenderInformation) {
+    return info.frameNumber < this.data.frames.length;
   }
+}
+
+export abstract class AnimeAnimation<T extends string> extends Animation {
+  private anime: AnimeInstance;
+
+  constructor(
+    params: Pick<
+      AnimeParams,
+      "targets" | "duration" | "loop" | "easing" | "direction" | T
+    >,
+  ) {
+    super();
+
+    this.anime = anime({
+      ...params,
+      autoplay: false,
+    });
+  }
+
+  public render(info: RenderInformation) {
+    this.anime.tick(info.timestamp);
+
+    return this.tick(info);
+  }
+
+  protected abstract tick(
+    info: RenderInformation,
+  ): AnimationFrameData | Promise<AnimationFrameData>;
 }

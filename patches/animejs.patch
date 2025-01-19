@@ -1,0 +1,43 @@
+diff --git a/lib/anime.js b/lib/anime.js
+index 6b81a1f89926bfa8b83cf9e427da85c97d73beb0..8ef284ff15bd687ac22d3504fa3a3db87035766c 100644
+--- a/lib/anime.js
++++ b/lib/anime.js
+@@ -59,9 +59,9 @@ var is = {
+   arr: function (a) { return Array.isArray(a); },
+   obj: function (a) { return stringContains(Object.prototype.toString.call(a), 'Object'); },
+   pth: function (a) { return is.obj(a) && a.hasOwnProperty('totalLength'); },
+-  svg: function (a) { return a instanceof SVGElement; },
+-  inp: function (a) { return a instanceof HTMLInputElement; },
+-  dom: function (a) { return a.nodeType || is.svg(a); },
++  svg: function (a) { return false; },
++  inp: function (a) { return false; },
++  dom: function (a) { return false; },
+   str: function (a) { return typeof a === 'string'; },
+   fnc: function (a) { return typeof a === 'function'; },
+   und: function (a) { return typeof a === 'undefined'; },
+@@ -318,7 +318,6 @@ function flattenArray(arr) {
+ function toArray(o) {
+   if (is.arr(o)) { return o; }
+   if (is.str(o)) { o = selectString(o) || o; }
+-  if (o instanceof NodeList || o instanceof HTMLCollection) { return [].slice.call(o); }
+   return [o];
+ }
+ 
+@@ -925,7 +924,7 @@ function anime(params) {
+   var resolve = null;
+ 
+   function makePromise(instance) {
+-    var promise = window.Promise && new Promise(function (_resolve) { return resolve = _resolve; });
++    var promise = globalThis.Promise && new Promise(function (_resolve) { return resolve = _resolve; });
+     instance.finished = promise;
+     return promise;
+   }
+@@ -1081,7 +1080,7 @@ function anime(params) {
+           instance.completed = true;
+           setCallback('loopComplete');
+           setCallback('complete');
+-          if (!instance.passThrough && 'Promise' in window) {
++          if (!instance.passThrough && 'Promise' in globalThis) {
+             resolve();
+             promise = makePromise(instance);
+           }

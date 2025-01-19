@@ -6,7 +6,11 @@ import {
   UppercaseLetters,
 } from "../../icons";
 
-import { Animation, type AnimationFrameData } from "../../lib/animation";
+import {
+  Animation,
+  type AnimationFrameData,
+  type RenderInformation,
+} from "../../lib/animation";
 import { composite } from "../../lib/composite";
 import { joinMatrices } from "../../lib/join-matrix";
 import { numberToBinary } from "../../lib/number-to-binary";
@@ -23,18 +27,19 @@ export class FramecountAnimation extends Animation {
 
   public interruptible = true;
 
-  public playCriteria(frame: number): Promise<boolean> | boolean {
+  public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;
   }
 
   public render(
-    frame: number,
+    info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData {
-    const matrix = textToMatrix(`${frame}`);
+    const matrix = textToMatrix(`${info.frameNumber}`);
 
     const matrixWidth = matrix[0]?.length || 0;
     const windowWidth = 34;
-    const startCol = (frame % (matrixWidth + windowWidth)) - windowWidth;
+    const startCol =
+      (info.frameNumber % (matrixWidth + windowWidth)) - windowWidth;
 
     return {
       brightness: 50,
