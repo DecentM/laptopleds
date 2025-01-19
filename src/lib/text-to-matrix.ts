@@ -1,4 +1,4 @@
-import { LowercaseLetters, Symbols, UppercaseLetters } from "../icons";
+import { LowercaseLetters, Symbols, UppercaseLetters, Numbers } from "../icons";
 import { joinMatrices } from "./join-matrix";
 
 const specialMap: Record<string, number[][]> = {
@@ -35,6 +35,8 @@ export const textToMatrix = (text: string): number[][] => {
       textMatrix.push(LowercaseLetters[char as keyof typeof LowercaseLetters]);
     } else if (char in UppercaseLetters) {
       textMatrix.push(UppercaseLetters[char as keyof typeof UppercaseLetters]);
+    } else if (char in Numbers) {
+      textMatrix.push(Numbers[char as keyof typeof Numbers]);
     } else {
       textMatrix.push(Symbols.Question);
     }

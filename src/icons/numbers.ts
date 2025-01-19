@@ -1,4 +1,4 @@
-export const One: number[][] = [
+const One: number[][] = [
   [0, 1],
   [1, 1],
   [0, 1],
@@ -7,7 +7,7 @@ export const One: number[][] = [
   [0, 1],
 ];
 
-export const Two: number[][] = [
+const Two: number[][] = [
   [0, 1, 0],
   [1, 0, 1],
   [0, 0, 1],
@@ -16,7 +16,7 @@ export const Two: number[][] = [
   [1, 1, 1],
 ];
 
-export const Three: number[][] = [
+const Three: number[][] = [
   [1, 1, 0],
   [0, 0, 1],
   [0, 0, 1],
@@ -25,7 +25,7 @@ export const Three: number[][] = [
   [1, 1, 0],
 ];
 
-export const Four: number[][] = [
+const Four: number[][] = [
   [0, 0, 1],
   [0, 1, 1],
   [1, 0, 1],
@@ -34,7 +34,7 @@ export const Four: number[][] = [
   [0, 0, 1],
 ];
 
-export const Five: number[][] = [
+const Five: number[][] = [
   [1, 1, 1],
   [1, 0, 0],
   [1, 1, 0],
@@ -43,7 +43,7 @@ export const Five: number[][] = [
   [1, 1, 0],
 ];
 
-export const Six: number[][] = [
+const Six: number[][] = [
   [0, 1, 0],
   [1, 0, 0],
   [1, 0, 0],
@@ -52,7 +52,7 @@ export const Six: number[][] = [
   [0, 1, 0],
 ];
 
-export const Seven: number[][] = [
+const Seven: number[][] = [
   [1, 1, 1],
   [0, 0, 1],
   [0, 0, 1],
@@ -61,7 +61,7 @@ export const Seven: number[][] = [
   [0, 1, 0],
 ];
 
-export const Eight: number[][] = [
+const Eight: number[][] = [
   [0, 1, 0],
   [1, 0, 1],
   [0, 1, 0],
@@ -70,7 +70,7 @@ export const Eight: number[][] = [
   [0, 1, 0],
 ];
 
-export const Nine: number[][] = [
+const Nine: number[][] = [
   [0, 1, 0],
   [1, 0, 1],
   [0, 1, 1],
@@ -79,7 +79,7 @@ export const Nine: number[][] = [
   [0, 1, 0],
 ];
 
-export const Zero: number[][] = [
+const Zero: number[][] = [
   [0, 1, 0],
   [1, 0, 1],
   [1, 0, 1],
@@ -87,3 +87,16 @@ export const Zero: number[][] = [
   [1, 0, 1],
   [0, 1, 0],
 ];
+
+export const Numbers = {
+  "1": One,
+  "2": Two,
+  "3": Three,
+  "4": Four,
+  "5": Five,
+  "6": Six,
+  "7": Seven,
+  "8": Eight,
+  "9": Nine,
+  "0": Zero,
+} as const;

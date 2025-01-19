@@ -17,7 +17,7 @@ import { windowMatrix } from "../../lib/window-matrix";
 export class FramecountAnimation extends Animation {
   public name = "framecount";
 
-  public fps = 20;
+  public fps = 3;
 
   public frameskip = false;
 
@@ -30,9 +30,7 @@ export class FramecountAnimation extends Animation {
   public render(
     frame: number,
   ): Promise<AnimationFrameData> | AnimationFrameData {
-    console.log("frame", frame, typeof frame, `f${String(frame)}`);
-
-    const matrix = textToMatrix(`f${String(frame)}`);
+    const matrix = textToMatrix(`${frame}`);
 
     const matrixWidth = matrix[0]?.length || 0;
     const windowWidth = 34;
@@ -41,10 +39,7 @@ export class FramecountAnimation extends Animation {
     return {
       brightness: 50,
       span: 1,
-      matrix: rotateMatrix(
-        windowMatrix(matrix, [0, startCol, matrix.length, windowWidth]),
-        270,
-      ),
+      matrix,
     };
   }
 }
