@@ -39,11 +39,11 @@ export const e: number[][] = [
 ];
 
 export const f: number[][] = [
-  [0, 1, 0],
-  [1, 0, 0],
-  [1, 1, 0],
-  [1, 0, 0],
-  [1, 0, 0],
+  [0, 1],
+  [1, 0],
+  [1, 1],
+  [1, 0],
+  [1, 0],
 ];
 
 export const g: number[][] = [
@@ -62,20 +62,14 @@ export const h: number[][] = [
   [1, 0, 1],
 ];
 
-export const i: number[][] = [
-  [0, 1, 0],
-  [0, 0, 0],
-  [0, 1, 0],
-  [0, 1, 0],
-  [0, 1, 0],
-];
+export const i: number[][] = [[1], [0], [1], [1], [1]];
 
 export const j: number[][] = [
-  [0, 0, 1],
-  [0, 0, 0],
-  [0, 0, 1],
-  [0, 0, 1],
-  [0, 1, 0],
+  [0, 1],
+  [0, 0],
+  [0, 1],
+  [0, 1],
+  [1, 0],
 ];
 
 export const k: number[][] = [
@@ -87,11 +81,11 @@ export const k: number[][] = [
 ];
 
 export const l: number[][] = [
-  [1, 0, 0],
-  [1, 0, 0],
-  [1, 0, 0],
-  [1, 0, 0],
-  [0, 1, 0],
+  [1, 0],
+  [1, 0],
+  [1, 0],
+  [1, 0],
+  [0, 1],
 ];
 
 export const m: number[][] = [

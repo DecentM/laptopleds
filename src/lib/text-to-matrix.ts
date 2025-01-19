@@ -35,6 +35,8 @@ export const textToMatrix = (text: string): number[][] => {
       textMatrix.push(LowercaseLetters[char as keyof typeof LowercaseLetters]);
     } else if (char in UppercaseLetters) {
       textMatrix.push(UppercaseLetters[char as keyof typeof UppercaseLetters]);
+    } else {
+      textMatrix.push(Symbols.Question);
     }
   }
 
