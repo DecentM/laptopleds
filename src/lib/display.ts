@@ -67,7 +67,7 @@ export class Display {
 
   public async powerOff(drain = true) {
     await this.draw([]);
-    await this.setBrightness(255);
+    await this.setBrightness(0);
     await this.sendCommand(Command.Sleep, [1], drain);
     this._power = false;
     await this.port.close();

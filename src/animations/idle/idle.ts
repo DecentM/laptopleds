@@ -8,7 +8,6 @@ import anime from "animejs";
 
 import { Battery, BlankScreen } from "../../icons";
 import { composite } from "../../lib/composite";
-import { textToMatrix } from "../../lib/text-to-matrix";
 import { rotateMatrix } from "../../lib/rotate-matrix";
 
 export class IdleAnimation extends Animation {
@@ -24,16 +23,16 @@ export class IdleAnimation extends Animation {
     return true;
   }
 
-  private state = { position: -5 };
+  private state = { position: 10 };
 
   private anime = anime({
     targets: this.state,
-    position: 34,
-    easing: "easeOutInQuart",
+    position: 19,
+    easing: "easeInOutQuart",
     round: 1,
     duration: 2000,
     loop: true,
-    direction: "forward",
+    direction: "alternate",
     autoplay: false,
   });
 

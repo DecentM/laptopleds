@@ -11,12 +11,14 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/animejs": "^3.1.12",
+    "@types/battery-level": "^3.0.2",
     "@types/node": "^22.10.7",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   },
   "dependencies": {
     "animejs": "^3.2.2",
+    "battery-level": "^3.0.0",
     "dbus-next": "^0.10.2",
     "serialport": "^13.0.0"
   },

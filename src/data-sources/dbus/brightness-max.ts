@@ -15,6 +15,10 @@ export class BrightnessMaxDataSource extends DataSource<number> {
       "org.kde.Solid.PowerManagement.Actions.BrightnessControl",
     );
 
-    return await iface.brightnessMax();
+    const value = this.readCache() ?? (await iface.brightnessMax());
+
+    this.writeCache(value);
+
+    return value;
   }
 }
