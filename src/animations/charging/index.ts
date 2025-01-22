@@ -24,8 +24,10 @@ export class ChargingAnimation extends Animation {
 
   public name = "idle";
 
+  private _finished = false;
+
   public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
-    return true;
+    return !this._finished;
   }
 
   public init(info: RenderInformation): Promise<void> | void {
@@ -77,10 +79,17 @@ export class ChargingAnimation extends Animation {
         },
         "-=600",
       )
-      .add({
-        brightness: 0,
-        duration: 1000,
-      });
+      .add(
+        {
+          brightness: 0,
+          duration: 1000,
+        },
+        "+=2500",
+      );
+
+    this.anime.finished.then(() => {
+      this._finished = true;
+    });
   }
 
   private state: {
@@ -99,7 +108,11 @@ export class ChargingAnimation extends Animation {
     info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData {
     if (this.state === null || this.anime === null) {
-      throw new Error("Animation not initialized");
+      return {
+        matrix: [],
+        brightness: 0,
+        span: 1,
+      };
     }
 
     this.anime.tick(info.timestamp);
