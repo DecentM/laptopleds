@@ -77,15 +77,7 @@ export abstract class Animation {
       const frame = await this.render(info);
 
       await Promise.all([
-        display.draw(
-          [
-            {
-              matrix: frame.matrix,
-              pos: [0, 0],
-            },
-          ],
-          false,
-        ),
+        display.draw(frame.matrix, false),
         display.setBrightness(frame.brightness, false),
       ]);
       await display.drain();

@@ -1,6 +1,5 @@
 import {
   Animation,
-  AnimeAnimation,
   type AnimationFrameData,
   type RenderInformation,
 } from "../../lib/animation";
@@ -21,6 +20,10 @@ export class IdleAnimation extends Animation {
 
   public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;
+  }
+
+  public init(info: RenderInformation): Promise<void> | void {
+    return;
   }
 
   private state = { position: 10 };

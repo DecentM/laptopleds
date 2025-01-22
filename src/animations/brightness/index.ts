@@ -5,10 +5,6 @@ import {
   type RenderInformation,
 } from "../../lib/animation";
 
-import { BrightnessDataSource } from "../../data-sources/dbus/brightness";
-import { BrightnessMaxDataSource } from "../../data-sources/dbus/brightness-max";
-import { rotateMatrix } from "../../lib/rotate-matrix";
-
 export class BrightnessAnimation extends Animation {
   public name = "brightness";
 
@@ -22,16 +18,13 @@ export class BrightnessAnimation extends Animation {
     return true;
   }
 
-  private brightness = new BrightnessDataSource();
-
-  private brightnessMax = new BrightnessMaxDataSource();
+  public init(info: RenderInformation): Promise<void> | void {
+    return;
+  }
 
   public async render(info: RenderInformation): Promise<AnimationFrameData> {
-    const brightnessPct =
-      (await this.brightness.read()) / (await this.brightnessMax.read());
-
     return {
-      brightness: brightnessPct * 255,
+      brightness: info.brightness * 255,
       span: 1,
       matrix: Battery,
     };

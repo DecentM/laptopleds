@@ -20,6 +20,10 @@ export class UptimeAnimation extends Animation {
     return true;
   }
 
+  public init(info: RenderInformation): Promise<void> | void {
+    return;
+  }
+
   public render(
     info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData {

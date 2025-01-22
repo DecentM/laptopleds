@@ -20,7 +20,7 @@ export class ChargingAnimation extends Animation {
 
   public frameskip = true;
 
-  public interruptible = true;
+  public interruptible = false;
 
   public name = "idle";
 

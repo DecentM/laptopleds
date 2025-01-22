@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx --watch src/index.ts"
+    "dev": "tsx --watch src/cli.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
   "dependencies": {
     "animejs": "^3.2.2",
     "battery-level": "^3.0.0",
+    "commander": "^13.1.0",
     "dbus-next": "^0.10.2",
     "serialport": "^13.0.0"
   },

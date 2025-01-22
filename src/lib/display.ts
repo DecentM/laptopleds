@@ -4,7 +4,6 @@ import { createArray } from "./array";
 import { Command } from "../declarations";
 import { invertMatrix } from "./invert-matrix";
 import { BlankScreen } from "../icons/blank-screen";
-import { composite } from "./composite";
 
 export class Display {
   private port: SerialPort;
@@ -61,13 +60,13 @@ export class Display {
     await this.port.open();
     await this.sendCommand(Command.Sleep, [0], drain);
     this._power = true;
-    await this.draw([]);
-    await this.setBrightness(255);
+    await this.draw(BlankScreen, drain);
+    await this.setBrightness(255, drain);
   }
 
   public async powerOff(drain = true) {
-    await this.draw([]);
-    await this.setBrightness(0);
+    await this.draw(BlankScreen, drain);
+    await this.setBrightness(0, drain);
     await this.sendCommand(Command.Sleep, [1], drain);
     this._power = false;
     await this.port.close();
@@ -75,36 +74,27 @@ export class Display {
 
   private lastDraw = 0;
 
-  public async draw(
-    layers: Array<{ matrix: number[][]; pos: [number, number] }>,
-    drain = true,
-  ) {
-    let screen = BlankScreen;
-
-    for (const layer of layers) {
-      screen = composite(screen, layer.matrix, layer.pos);
-    }
-
-    const matrix = invertMatrix(screen);
+  public async draw(matrix: number[][], drain = true) {
+    const screen = invertMatrix(matrix);
 
     if (
-      matrix.length === this.height &&
-      matrix[0].length === this.width &&
-      matrix.every((row, y) =>
+      screen.length === this.height &&
+      screen[0].length === this.width &&
+      screen.every((row, y) =>
         row.every((cell, x) => cell === this._matrix[y][x]),
       )
     ) {
       if (performance.now() - this.lastDraw < 50000) return;
     }
 
-    const width = matrix[0].length;
-    const height = matrix.length;
+    const width = screen[0].length;
+    const height = screen.length;
 
     const vals = new Array(39).fill(0);
 
     for (let col = 0; col < width; col++) {
       for (let row = 0; row < height; row++) {
-        const cell = matrix[row][col];
+        const cell = screen[row][col];
         if (cell === 0) {
           const i = col + row * width;
           vals[Math.trunc(i / 8)] |= 1 << (i % 8);
@@ -113,7 +103,7 @@ export class Display {
     }
 
     await this.sendCommand(Command.Draw, vals, drain);
-    this._matrix = matrix;
+    this._matrix = screen;
     this.lastDraw = performance.now();
   }
 
@@ -138,15 +128,7 @@ export class Display {
       this._matrix[y][x] = value;
     }
 
-    await this.draw(
-      [
-        {
-          matrix: this._matrix,
-          pos: [0, 0],
-        },
-      ],
-      drain,
-    );
+    await this.draw(this._matrix, drain);
   }
 
   public async drain() {
