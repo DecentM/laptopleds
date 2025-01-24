@@ -38,7 +38,7 @@ export class ChargingAnimation extends Animation {
       pctY: 34,
       circleProgress: 0,
       checkmarkProgress: 0,
-      brightness: Math.log(info.brightness) * 20,
+      brightness: Math.log(Math.max(info.brightness, 10)) * 20,
     };
 
     this.anime = anime

@@ -1,11 +1,13 @@
 import { SerialPort } from "serialport";
 
-import { createArray } from "./array";
-import { Command } from "../declarations";
-import { invertMatrix } from "./invert-matrix";
-import { BlankScreen } from "../icons/blank-screen";
+import { createArray } from "../array";
+import { Command } from "../../declarations";
+import { invertMatrix } from "../invert-matrix";
+import { BlankScreen } from "../../icons/blank-screen";
 
-export class Display {
+import { Display } from ".";
+
+export class SerialPortDisplay extends Display {
   private port: SerialPort;
 
   private _brightness = 0;
@@ -31,6 +33,8 @@ export class Display {
     public width = 9,
     public height = 34,
   ) {
+    super();
+
     this.port = new SerialPort({ path, baudRate: 115200, autoOpen: false });
 
     this.port.on("error", (error) => {

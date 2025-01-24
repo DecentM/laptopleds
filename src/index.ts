@@ -1,4 +1,4 @@
-import { Display } from "./lib/display";
+import { Display } from "./lib/display/serial-port";
 
 const main = async () => {
   const left = new Display("/dev/ttyACM1");

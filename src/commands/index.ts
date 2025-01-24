@@ -1,7 +1,8 @@
 import { Command } from "commander";
 
 import * as Animations from "../animations";
-import { Display } from "../lib/display";
+import { SerialPortDisplay } from "../lib/display/serial-port";
+import { EmulatedDisplay } from "../lib/display/emulator";
 
 export const program = new Command();
 
@@ -24,7 +25,10 @@ program
 
     const animation = new Animation();
 
-    const display = new Display(options.device);
+    const display =
+      options.device === "emulator"
+        ? new EmulatedDisplay()
+        : new SerialPortDisplay(options.device);
 
     await display.powerOn();
     await animation.play(display);
