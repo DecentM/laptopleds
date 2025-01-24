@@ -1,6 +1,7 @@
 import { createArray } from "../array";
 
 import { Display } from ".";
+import { delay } from "../delay";
 
 export class EmulatedDisplay extends Display {
   private _brightness = 0;
@@ -34,20 +35,30 @@ export class EmulatedDisplay extends Display {
 
   public async powerOn(drain = false) {
     console.clear();
-    console.log("Display powered on");
+
+    this.draw(createArray<number>(this.height, this.width));
+
+    await delay(Math.random() * 2000);
 
     this._power = true;
+    this.draw(createArray<number>(this.height, this.width));
   }
 
   public async powerOff(drain = false) {
     console.clear();
-    console.log("Display powered off");
-
     this._power = false;
+
+    this.draw(createArray<number>(this.height, this.width));
   }
 
   public async setBrightness(brightness: number, drain = false) {
     this._brightness = brightness;
+  }
+
+  private printStatus() {
+    console.log();
+    console.log(`Power: ${this._power ? "On" : "Off"}`);
+    console.log(`Brightness: ${this._brightness}`);
   }
 
   private lastDraw = 0;
@@ -61,7 +72,8 @@ export class EmulatedDisplay extends Display {
       matrix.every((row, y) =>
         row.every((cell, x) => cell === this._matrix[y][x]),
       ) &&
-      this._brightness === this.lastBrightness
+      this._brightness === this.lastBrightness &&
+      this._power
     ) {
       if (performance.now() - this.lastDraw < 50000) return;
     }
@@ -89,6 +101,8 @@ export class EmulatedDisplay extends Display {
     }
 
     console.log(`\x1b[48;2;0;0;0m└${"─".repeat(this.width * 2)}┘\x1b[0m`);
+
+    this.printStatus();
 
     this._matrix = matrix;
     this.lastDraw = performance.now();

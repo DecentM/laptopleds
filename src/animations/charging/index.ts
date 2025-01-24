@@ -22,7 +22,7 @@ export class ChargingAnimation extends Animation {
 
   public interruptible = false;
 
-  public name = "idle";
+  public name = "charging";
 
   private _finished = false;
 
@@ -38,7 +38,7 @@ export class ChargingAnimation extends Animation {
       pctY: 34,
       circleProgress: 0,
       checkmarkProgress: 0,
-      brightness: Math.log(Math.max(info.brightness, 10)) * 20,
+      brightness: (Math.log(info.brightness + 1) + 1) * 20,
     };
 
     this.anime = anime

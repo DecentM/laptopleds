@@ -2,9 +2,8 @@ import anime, { type AnimeInstance, type AnimeParams } from "animejs";
 import { animate } from "./animate";
 import type { Display } from "./display";
 
-import { BrightnessDataSource } from "../data-sources/dbus/brightness";
+import { BrightnessDataSource } from "../data-sources/brightness";
 import { BatteryDataSource } from "../data-sources/battery";
-import { BrightnessMaxDataSource } from "../data-sources/dbus/brightness-max";
 
 export type AnimationFrameData = {
   brightness: number;
@@ -47,16 +46,12 @@ export abstract class Animation {
 
   private brightness = new BrightnessDataSource();
 
-  private maxBrightness = new BrightnessMaxDataSource();
-
   private battery = new BatteryDataSource();
 
   private async getInfo() {
     return {
       timestamp: performance.now(),
-      brightness:
-        ((await this.brightness.read()) / (await this.maxBrightness.read())) *
-        255,
+      brightness: await this.brightness.read(),
       battery: await this.battery.read(),
     };
   }

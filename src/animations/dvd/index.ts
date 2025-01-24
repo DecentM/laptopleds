@@ -22,13 +22,13 @@ const All = [
 ].sort(() => Math.random() - 0.5);
 
 export class DvdAnimation extends Animation {
-  public fps = 10;
+  public fps = 4;
 
   public frameskip = true;
 
   public interruptible = true;
 
-  public name = "idle";
+  public name = "dvd";
 
   public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;
@@ -54,9 +54,9 @@ export class DvdAnimation extends Animation {
       duration: 60000,
     });
 
-  private xVel = 0.1;
+  private xVel = 2 / this.fps;
 
-  private yVel = 0.1;
+  private yVel = 2 / this.fps;
 
   private stepDvd() {
     this.state.x += this.xVel;
@@ -85,7 +85,7 @@ export class DvdAnimation extends Animation {
 
     return {
       matrix,
-      brightness: 50,
+      brightness: (Math.log(info.brightness + 1) + 1) * 20,
       span: 1,
     };
   }

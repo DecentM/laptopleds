@@ -1,8 +1,8 @@
 import dbus from "dbus-next";
 
-import { DataSource } from "../data-source";
+import { DataSource } from "./data-source";
 
-export class BrightnessMaxDataSource extends DataSource<number> {
+export class BrightnessDataSource extends DataSource<number> {
   private bus = dbus.sessionBus();
 
   public async read(): Promise<number> {
@@ -15,7 +15,9 @@ export class BrightnessMaxDataSource extends DataSource<number> {
       "org.kde.Solid.PowerManagement.Actions.BrightnessControl",
     );
 
-    const value = this.readCache() ?? (await iface.brightnessMax());
+    const value =
+      this.readCache() ??
+      (await iface.brightness()) / (await iface.brightnessMax());
 
     this.writeCache(value);
 
