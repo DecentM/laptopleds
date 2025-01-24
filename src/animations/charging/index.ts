@@ -83,6 +83,7 @@ export class ChargingAnimation extends Animation {
         {
           brightness: 0,
           duration: 1000,
+          easing: "easeOutQuart",
         },
         "+=2500",
       );

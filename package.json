@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "tsx --watch src/cli.ts"
+    "dev": "tsx --watch src/cli.ts",
+    "start": "tsx src/cli.ts"
   },
   "author": "",
   "license": "ISC",
