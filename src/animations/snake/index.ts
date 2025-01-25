@@ -19,7 +19,7 @@ export class SnakeAnimation extends Animation {
   private gameOver = false;
 
   public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
-    return !this.gameOver;
+    return true;
   }
 
   private spawnFood(): void {
@@ -34,9 +34,17 @@ export class SnakeAnimation extends Animation {
     this.food = [x, y];
   }
 
-  public init(info: RenderInformation): Promise<void> | void {
-    this.snake = [9 * 4 + 3];
+  private startGame(): void {
+    this.snake = [Math.floor(Math.random() * 34 * 9)];
+    this.direction = ["up", "down", "left", "right"][
+      Math.floor(Math.random() * 4)
+    ] as "up" | "down" | "left" | "right";
+    this.gameOver = false;
     this.spawnFood();
+  }
+
+  public init(info: RenderInformation): Promise<void> | void {
+    this.startGame();
   }
 
   private snake: number[] = [];
@@ -176,6 +184,7 @@ export class SnakeAnimation extends Animation {
       this.snake.includes(newHead)
     ) {
       this.gameOver = true;
+      this.startGame();
 
       return {
         brightness: 50,
