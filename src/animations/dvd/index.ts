@@ -28,7 +28,7 @@ export class DvdAnimation extends Animation {
 
   public interruptible = true;
 
-  public name = "dvd";
+  public static name = "dvd";
 
   public playCriteria(info: RenderInformation): Promise<boolean> | boolean {
     return true;

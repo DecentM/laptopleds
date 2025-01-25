@@ -26,7 +26,7 @@ export type RenderInformation = {
 };
 
 export abstract class Animation {
-  public abstract readonly name: string;
+  public static readonly name: string;
 
   public abstract readonly fps: number;
 

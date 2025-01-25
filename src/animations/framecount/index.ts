@@ -1,12 +1,15 @@
+import { BlankScreen } from "../../icons";
 import {
   Animation,
   type AnimationFrameData,
   type RenderInformation,
 } from "../../lib/animation";
+import { composite } from "../../lib/composite";
+import { rotateMatrix } from "../../lib/rotate-matrix";
 import { textToMatrix } from "../../lib/text-to-matrix";
 
 export class FramecountAnimation extends Animation {
-  public name = "framecount";
+  public static name = "framecount";
 
   public fps = 3;
 
@@ -29,7 +32,11 @@ export class FramecountAnimation extends Animation {
   ): Promise<AnimationFrameData> | AnimationFrameData {
     this.frameNumber++;
 
-    const matrix = textToMatrix(`${this.frameNumber}`);
+    const matrix = composite(
+      BlankScreen,
+      rotateMatrix(textToMatrix(`${this.frameNumber}`), 90),
+      [0, 0],
+    );
 
     return {
       brightness: 50,

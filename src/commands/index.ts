@@ -11,7 +11,9 @@ program
   .argument("<animation>", "Name of the animation to play")
   .option("-d, --device <device>", "Device path to send the animation to")
   .action(async (animationName, options) => {
-    const Animation = Animations[animationName as keyof typeof Animations];
+    const Animation = Object.values(Animations).find(
+      (animation) => animation.name === animationName,
+    );
 
     if (!Animation) {
       console.error(`Animation not found: "${animationName}"`);

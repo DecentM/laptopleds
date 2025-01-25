@@ -6,9 +6,11 @@ import {
   type RenderInformation,
 } from "../../lib/animation";
 import { numberToBinary } from "../../lib/number-to-binary";
+import { composite } from "../../lib/composite";
+import { BlankScreen } from "../../icons";
 
 export class UptimeAnimation extends Animation {
-  public name = "uptime";
+  public static name = "uptime";
 
   public fps = 1;
 
@@ -57,7 +59,7 @@ export class UptimeAnimation extends Animation {
     return {
       brightness: 50,
       span: 1,
-      matrix: [dHours, dMinutes, dSeconds],
+      matrix: composite(BlankScreen, [dHours, dMinutes, dSeconds], [0, 0]),
     };
   }
 }

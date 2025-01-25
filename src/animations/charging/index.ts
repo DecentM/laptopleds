@@ -22,7 +22,7 @@ export class ChargingAnimation extends Animation {
 
   public interruptible = false;
 
-  public name = "charging";
+  public static name = "charging";
 
   private _finished = false;
 

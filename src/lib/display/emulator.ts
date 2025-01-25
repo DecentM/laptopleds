@@ -38,7 +38,7 @@ export class EmulatedDisplay extends Display {
 
     this.draw(createArray<number>(this.height, this.width));
 
-    await delay(Math.random() * 2000);
+    await delay(Math.random() * 1000); // Simulate boot time
 
     this._power = true;
     this.draw(createArray<number>(this.height, this.width));
