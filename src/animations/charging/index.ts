@@ -112,7 +112,6 @@ export class ChargingAnimation extends Animation {
       return {
         matrix: [],
         brightness: 0,
-        span: 1,
       };
     }
 
@@ -132,7 +131,6 @@ export class ChargingAnimation extends Animation {
     return {
       matrix,
       brightness: this.state.brightness,
-      span: 1,
     };
   }
 }

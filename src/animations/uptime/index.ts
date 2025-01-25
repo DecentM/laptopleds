@@ -58,7 +58,6 @@ export class UptimeAnimation extends Animation {
 
     return {
       brightness: 50,
-      span: 1,
       matrix: composite(BlankScreen, [dHours, dMinutes, dSeconds], [0, 0]),
     };
   }

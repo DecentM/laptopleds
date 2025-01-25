@@ -7,7 +7,6 @@ import { BatteryDataSource } from "../data-sources/battery";
 
 export type AnimationFrameData = {
   brightness: number;
-  span: number;
   matrix: number[][];
 };
 
@@ -58,7 +57,6 @@ export abstract class Animation {
 
   public play = async (display: Display) => {
     let frameNumber = 0;
-    let spanProgress = 0;
 
     if (this.fps < 0 || this.fps > 1000) {
       throw new Error(`Invalid animation frame rate - 0 < ${this.fps} < 1000`);
@@ -77,12 +75,7 @@ export abstract class Animation {
       ]);
       await display.drain();
 
-      if (frame.span > spanProgress + 1) {
-        spanProgress++;
-      } else {
-        frameNumber++;
-        spanProgress = 0;
-      }
+      frameNumber++;
 
       if (skip) frameNumber += skip;
 

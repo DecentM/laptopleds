@@ -86,7 +86,6 @@ export class DvdAnimation extends Animation {
     return {
       matrix,
       brightness: (Math.log(info.brightness + 1) + 1) * 20,
-      span: 1,
     };
   }
 }

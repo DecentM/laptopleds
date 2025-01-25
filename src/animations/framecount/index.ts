@@ -40,7 +40,6 @@ export class FramecountAnimation extends Animation {
 
     return {
       brightness: 50,
-      span: 1,
       matrix,
     };
   }
