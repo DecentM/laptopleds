@@ -5,9 +5,7 @@ import {
   type RenderInformation,
 } from "../../lib/animation";
 import { createArray } from "../../lib/array";
-import { composite, compositeMany } from "../../lib/composite";
-import { rotateMatrix } from "../../lib/rotate-matrix";
-import { textToMatrix } from "../../lib/text-to-matrix";
+import { compositeMany } from "../../lib/composite";
 
 export class SnakeAnimation extends Animation {
   public static name = "snake";

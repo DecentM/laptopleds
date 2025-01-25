@@ -6,21 +6,25 @@ export class BrightnessDataSource extends DataSource<number> {
   private bus = dbus.sessionBus();
 
   public async read(): Promise<number> {
-    const obj = await this.bus.getProxyObject(
-      "local.org_kde_powerdevil",
-      "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
-    );
+    try {
+      const obj = await this.bus.getProxyObject(
+        "local.org_kde_powerdevil",
+        "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
+      );
 
-    const iface = await obj.getInterface(
-      "org.kde.Solid.PowerManagement.Actions.BrightnessControl",
-    );
+      const iface = await obj.getInterface(
+        "org.kde.Solid.PowerManagement.Actions.BrightnessControl",
+      );
 
-    const value =
-      this.readCache() ??
-      (await iface.brightness()) / (await iface.brightnessMax());
+      const value =
+        this.readCache() ??
+        (await iface.brightness()) / (await iface.brightnessMax());
 
-    this.writeCache(value);
+      this.writeCache(value);
 
-    return value;
+      return Number.isNaN(value) ? 0.5 : value;
+    } catch {
+      return 0.5;
+    }
   }
 }
