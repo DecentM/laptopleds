@@ -25,6 +25,10 @@ export class FramecountAnimation extends Animation {
     this.frameNumber = 0;
   }
 
+  public end(info: RenderInformation): Promise<void> | void {
+    return;
+  }
+
   private frameNumber = 0;
 
   public render(

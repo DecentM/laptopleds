@@ -38,6 +38,10 @@ export class DvdAnimation extends Animation {
     return;
   }
 
+  public end(info: RenderInformation): Promise<void> | void {
+    return;
+  }
+
   private state = { index: 0, x: 0, y: 0 };
 
   private anime = anime

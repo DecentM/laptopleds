@@ -43,6 +43,8 @@ export abstract class Animation {
 
   public abstract init(info: RenderInformation): Promise<void> | void;
 
+  public abstract end(info: RenderInformation): Promise<void> | void;
+
   private brightness = new BrightnessDataSource();
 
   private battery = new BatteryDataSource();
@@ -81,5 +83,7 @@ export abstract class Animation {
 
       return await this.playCriteria(info);
     });
+
+    await this.end(info);
   };
 }

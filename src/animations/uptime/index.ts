@@ -26,6 +26,10 @@ export class UptimeAnimation extends Animation {
     return;
   }
 
+  public end(info: RenderInformation): Promise<void> | void {
+    return;
+  }
+
   public render(
     info: RenderInformation,
   ): Promise<AnimationFrameData> | AnimationFrameData {

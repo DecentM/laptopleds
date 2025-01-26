@@ -47,6 +47,10 @@ export class SnakeAnimation extends Animation {
     this.startGame();
   }
 
+  public end(info: RenderInformation): Promise<void> | void {
+    return;
+  }
+
   private snake: number[] = [];
 
   private direction: "up" | "down" | "left" | "right" = "down";
